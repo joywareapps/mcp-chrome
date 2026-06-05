@@ -24,7 +24,7 @@ program
   .description('Register Native Messaging host')
   .option('-f, --force', 'Force re-registration')
   .option('-s, --system', 'Use system-level installation (requires administrator/sudo privileges)')
-  .option('-b, --browser <browser>', 'Register for specific browser (chrome, chromium, or all)')
+  .option('-b, --browser <browser>', 'Register for specific browser (chrome, chromium, brave, or all)')
   .option('-d, --detect', 'Auto-detect installed browsers')
   .action(async (options) => {
     try {
@@ -36,14 +36,14 @@ program
 
       if (options.browser) {
         if (options.browser.toLowerCase() === 'all') {
-          targetBrowsers = [BrowserType.CHROME, BrowserType.CHROMIUM];
+          targetBrowsers = [BrowserType.CHROME, BrowserType.CHROMIUM, BrowserType.BRAVE];
           console.log(colorText('Registering for all supported browsers...', 'blue'));
         } else {
           const browserType = parseBrowserType(options.browser);
           if (!browserType) {
             console.error(
               colorText(
-                `Invalid browser: ${options.browser}. Use 'chrome', 'chromium', or 'all'`,
+                `Invalid browser: ${options.browser}. Use 'chrome', 'chromium', 'brave', or 'all'`,
                 'red',
               ),
             );
@@ -183,7 +183,7 @@ program
   .description('Diagnose installation and environment issues')
   .option('--json', 'Output diagnostics as JSON')
   .option('--fix', 'Attempt to fix common issues automatically')
-  .option('-b, --browser <browser>', 'Target browser (chrome, chromium, or all)')
+  .option('-b, --browser <browser>', 'Target browser (chrome, chromium, brave, or all)')
   .action(async (options) => {
     try {
       const exitCode = await runDoctor({
@@ -208,7 +208,7 @@ program
   .option('--no-redact', 'Disable redaction of usernames/paths/tokens')
   .option('--include-logs <mode>', 'Include wrapper logs: none | tail | full', 'tail')
   .option('--log-lines <n>', 'Lines to include when --include-logs=tail', '200')
-  .option('-b, --browser <browser>', 'Target browser (chrome, chromium, or all)')
+  .option('-b, --browser <browser>', 'Target browser (chrome, chromium, brave, or all)')
   .action(async (options) => {
     try {
       const exitCode = await runReport({
